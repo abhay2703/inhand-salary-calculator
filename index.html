@@ -910,7 +910,7 @@
     const REBATE_87A = { new: { limit: 1200000, maxRebate: Infinity }, old: { limit: 500000, maxRebate: 12500 } };
     const CESS_RATE = 0.04;
     const DEFAULT_PROF_TAX = 2400;
-    const PF_WAGE_CEILING = 15000;
+    const PF_WAGE_CEILING = 15000; // statutory minimum; overridden below for default calc
 
     /* =====================================================
        UTILITY
@@ -1203,10 +1203,13 @@
 
     function calculate() {
         var ctc = getVal('ctc');
+        var ctcInput = document.getElementById('ctc');
         if (!ctc || ctc <= 0) {
-            alert('Please enter a valid Annual CTC.');
+            ctcInput.style.borderColor = '#dc2626';
+            ctcInput.focus();
             return;
         }
+        ctcInput.style.borderColor = '';
 
         var selectedRegime = document.querySelector('.regime-btn.active').dataset.regime;
         var assumptions = [];
@@ -1229,18 +1232,16 @@
             assumptions.push('Variable Pay / Bonus assumed as &#8377;0');
         }
 
-        var pfWage = Math.min(basic, PF_WAGE_CEILING * 12);
-
         var employerPf = getVal('employerPf');
         if (employerPf === null) {
-            employerPf = Math.round(pfWage * 0.12);
-            assumptions.push('Employer PF assumed as 12% of Basic (capped at &#8377;15,000/month wage ceiling): &#8377;' + fmt(employerPf));
+            employerPf = Math.round(basic * 0.12);
+            assumptions.push('Employer PF assumed as 12% of Basic Salary: &#8377;' + fmt(employerPf));
         }
 
         var employeePf = getVal('employeePf');
         if (employeePf === null) {
-            employeePf = Math.round(pfWage * 0.12);
-            assumptions.push('Employee PF assumed as 12% of Basic (capped at &#8377;15,000/month wage ceiling): &#8377;' + fmt(employeePf));
+            employeePf = Math.round(basic * 0.12);
+            assumptions.push('Employee PF assumed as 12% of Basic Salary: &#8377;' + fmt(employeePf));
         }
 
         var profTax = getVal('profTax');

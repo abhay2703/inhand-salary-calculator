@@ -1026,12 +1026,13 @@
 
     function renderBreakdown(r) {
         var rows = [
+            { label: 'Annual CTC', annual: r.ctc, cls: 'row-total' },
+            { label: '(−) Employer PF Contribution', annual: r.employerPf, cls: 'row-deduction' },
+            { label: 'Gross Salary', annual: r.grossSalary, cls: 'row-total' },
             { label: 'Basic Salary', annual: r.basic, cls: '' },
             { label: 'HRA', annual: r.hra, cls: '' },
             { label: 'Special Allowance', annual: r.specialAllowance, cls: '' },
             { label: 'Bonus / Variable Pay', annual: r.bonus, cls: '' },
-            { label: 'Gross Salary', annual: r.grossSalary, cls: 'row-total' },
-            { label: '(−) Employer PF Contribution', annual: r.employerPf, cls: 'row-deduction' },
             { label: '(−) Employee PF Contribution', annual: r.employeePf, cls: 'row-deduction' },
             { label: '(−) Professional Tax', annual: r.profTax, cls: 'row-deduction' },
             { label: '(−) Income Tax', annual: r.incomeTax, cls: 'row-deduction' },
